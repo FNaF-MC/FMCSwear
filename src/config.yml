@@ -1,0 +1,46 @@
+#do not modify
+version: 1
+# if set to true, the plugin will try to hook with Skript
+useskript: true
+# regular expression to match all non-letter characters (if you don't know how this works, please don't touch it), leave it empty to disable this
+regex: '[^\p{L}\p{Nd}]+'
+# the list of bad words
+badwords:
+  - 'fuck'
+  - 'shit'
+  - 'gay'
+  - 'fucker'
+  - 'arse'
+  - 'ass'
+  - 'asshole'
+  - 'bitch'
+  - 'crap'
+  - 'cunt'
+  - 'slut'
+  - 'motherfucker'
+# if a word gets blocked, but isn't a bad word, place it here
+falsepositive:
+  - 'shut'
+# if set to false, the message doesn't get blocked
+blockmessage: true
+# what percentage of swearing should the message contain for it to be blocked (this is used only when some characters are replaced with another)
+percent: 70.00
+messages:
+  blocked: '&cPlease, do not swear!'
+  punishment:
+    next: '&cIf you swear again, you will get a punishment!'
+    done: '&4You were punished because of swearing!'
+  reload: '&eThe config file has been reloaded!'
+  reset:
+    player: '&cPlease specify the name of the player!'
+    norecord: '&cThe specified player does not have any swearing record.'
+    done: '&eSwearing record for %player% is now clear.'
+punishment:
+  enabled: true
+  # only punish the player after X swearing
+  after: 3
+  # if the player doesn't swear for X seconds, the plugin will start the counting from 0
+  reset: 600
+  # self-explanatory
+  commands:
+    - 'msg %player% The plugin is not yet set-up correctly, so please act like you''ve been punished. Thank you. :)'
