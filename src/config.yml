@@ -1,5 +1,5 @@
 #do not modify
-version: 1
+version: 2
 # if set to true, the plugin will try to hook with Skript
 useskript: true
 # regular expression to match all non-letter characters (if you don't know how this works, please don't touch it), leave it empty to disable this
@@ -21,8 +21,11 @@ badwords:
 # if a word gets blocked, but isn't a bad word, place it here
 falsepositive:
   - 'shut'
-# if set to false, the message doesn't get blocked
+# if set to false, and the censor is enabled the word is instead replaced with stars
 blockmessage: true
+# if enabled, and the above "blockmessage" setting is set to false, the bad word is replaced with stars
+# please keep in mind, that users can disable this for themselves if they want to
+censor: true
 # what percentage of swearing should the message contain for it to be blocked (this is used only when some characters are replaced with another)
 percent: 70.00
 messages:

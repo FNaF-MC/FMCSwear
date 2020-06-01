@@ -35,7 +35,7 @@ public class SwearRecord extends SimpleExpression<Integer> {
     }
     @Override
     public String toString(Event e, boolean arg1) {
-        return "nametag of %player%";
+        return "swear[ing] [record] of %player%";
     }
     @Override
     protected Integer[] get(Event e) {

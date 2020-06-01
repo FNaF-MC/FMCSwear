@@ -1,9 +1,14 @@
 package hu.Pdani.FMCSwear;
 
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 
 public class PlayerManager {
     private FMCSwearPlugin plugin;
@@ -13,6 +18,7 @@ public class PlayerManager {
     private HashMap<String,Integer> counter = new HashMap<>();
     private HashMap<String,Long> last = new HashMap<>();
     private HashMap<String,String> message = new HashMap<>();
+    private HashMap<String,Boolean> censor = new HashMap<>();
     public PlayerManager(FMCSwearPlugin plugin){
         this.plugin = plugin;
         this.reloadConfig();
@@ -70,5 +76,55 @@ public class PlayerManager {
         if(!counter.containsKey(player.getName()))
             return 0;
         return counter.get(player.getName());
+    }
+    public boolean setCensor(Player player, boolean value){
+        boolean def = plugin.getConfig().getBoolean("censor",true);
+        boolean old;
+        if(!updateCensor(player,value)){
+            return !value;
+        }
+        if(censor.containsKey(player.getName())){
+            old = censor.get(player.getName());
+            censor.replace(player.getName(),value);
+            return old;
+        }
+        censor.put(player.getName(),value);
+        return def;
+    }
+    public boolean getCensor(Player player){
+        boolean def = plugin.getConfig().getBoolean("censor",true);
+        if(censor.containsKey(player.getName()))
+            return censor.get(player.getName());
+        return def;
+    }
+    public void reloadCensor() {
+        if(!censor.isEmpty())
+            censor.clear();
+        boolean def = plugin.getConfig().getBoolean("censor",true);
+        File dir = new File(plugin.getDataFolder(),"/players");
+        File[] directoryListing = dir.listFiles();
+        if (directoryListing != null) {
+            for (File child : directoryListing) {
+                if(!child.getName().toLowerCase().endsWith(".yml"))
+                    continue;
+                FileConfiguration fc = YamlConfiguration.loadConfiguration(child);
+                String name = fc.getString("username");
+                boolean value = fc.getBoolean("censor",def);
+                censor.put(name,value);
+            }
+        }
+    }
+    private boolean updateCensor(Player player, boolean value){
+        File cfile = new File(plugin.getDataFolder(), "players/" + player.getUniqueId().toString() + ".yml");
+        FileConfiguration fc = YamlConfiguration.loadConfiguration(cfile);
+        fc.set("username", player.getName());
+        fc.set("censor", value);
+        try {
+            fc.save(cfile);
+            return true;
+        } catch (IOException e) {
+            plugin.getLogger().log(Level.WARNING, "Unable to save player file: " + cfile.toString());
+        }
+        return false;
     }
 }

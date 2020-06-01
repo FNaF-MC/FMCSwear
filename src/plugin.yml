@@ -1,6 +1,6 @@
 name: FMCSwear
 main: hu.Pdani.FMCSwear.FMCSwearPlugin
-version: '1.1.8'
+version: '1.2.0'
 authors: [Pdani001]
 description: FNaFMC swear filter plugin
 softdepend: [Skript]
